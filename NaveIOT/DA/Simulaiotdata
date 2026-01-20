@@ -1,0 +1,28 @@
+import json
+import time
+import random
+import os
+from misurazione import on_temperatura, on_umidita
+
+#Lettura del file di configurazione
+try:
+    with open("DA/parametri.conf", "r") as file:
+        parametri = json.load(file)
+
+except FileNotFoundError:
+    print("File di configurazione non trovato")
+    exit(1)
+except json.JSONDecodeError as e:
+    print("JSON non valido: "e)
+    exit(1)
+except: Exception as e:
+    print("Errore: ", e)
+    exit(1)
+
+
+#Assegnazione Parametri
+
+TIMER_RILEVAZIONE = parametri["TIMER RILEVAZIONE"]
+NUM_DECIMALI = parametri["NUM_DECIMALI"]
+NUM_CABINE = parametri["NUM_CABINE"]
+NUM_PONTI = parametri["NUM_PONTI"]
