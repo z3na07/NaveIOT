@@ -45,4 +45,32 @@ somma_umid = 0
 
 print("Simulazione di rete IOT attivata. Prmere CTRL+C per terminare.")
 
+# Codice per la rivelazione dei dati nella cabina
+
+try:
+    while true:
+        rilevazione += 1
+
+        cabina = random.randint(1, NUM_CABINE)
+        ponte = random.randint(1, NUM_PONTI)
+
+        temperatura = on_temperatura(NUM_DECIMALI)
+        umidita = on_umidita(NUM_DECIMALI)
+
+        timestamp = time.time()
+
+        dato_iot{
+            "cabina": cabina
+            "ponte": ponte
+            "rilevazione": rilevazione
+            "dataeora": dataeora
+            "temperatura": temperatura
+            "umidita": umidita
+        } 
+
+
+# Stampa a video delle misurazioni
+
+print(json.dumps(dato_iot, indent = 4))
+
 
