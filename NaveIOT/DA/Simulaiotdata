@@ -6,7 +6,7 @@ from misurazione import on_temperatura, on_umidita
 
 #Lettura del file di configurazione
 try:
-    with open("DA/parametri.conf", "r") as file:
+    with open("parametri.conf", "r") as file:
         parametri = json.load(file)
 
 except FileNotFoundError:
@@ -26,3 +26,23 @@ TIMER_RILEVAZIONE = parametri["TIMER RILEVAZIONE"]
 NUM_DECIMALI = parametri["NUM_DECIMALI"]
 NUM_CABINE = parametri["NUM_CABINE"]
 NUM_PONTI = parametri["NUM_PONTI"]
+
+
+# Creazione Cartella
+
+try:
+    os.makedirs("dati", exist_ok = true)
+except Exception as e:
+    print("Errore nella creazione della cartella: ", e)
+    exit(1)
+
+# Dichiarazione variabili
+
+rilevazione = 0
+somma_temp = 0
+somma_umid = 0
+
+
+print("Simulazione di rete IOT attivata. Prmere CTRL+C per terminare.")
+
+
