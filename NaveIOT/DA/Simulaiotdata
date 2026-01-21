@@ -1,14 +1,13 @@
 import json
 import time
 import random
-
 from misurazione import on_temperatura, on_umidita
 
 #Lettura del file di configurazione
 try:
     file_conf = open("parametri.conf", "r") as file:
         parametri = json.load(file)
-    file_conf.close()
+    file_conf.close()  
 except FileNotFoundError:
     print("File di configurazione non trovato")
     exit(1)
