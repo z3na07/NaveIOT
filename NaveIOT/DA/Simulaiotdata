@@ -3,6 +3,7 @@ import time
 import random
 from misurazione import on_temperatura, on_umidita
 
+#Def che carica il file json da cui prendere i parametri
 
 def carica_configurazione(percorso):
     try:
@@ -18,7 +19,7 @@ def carica_configurazione(percorso):
         print("Errore generico:", errore)
         exit(1)
 
-
+#Def che salva il dato rilevato da DIOT
 def salva_dato(dato):
     try:
         with open("IOT/iotdata.dbt", "a") as f:
@@ -28,7 +29,7 @@ def salva_dato(dato):
         print("Errore durante il salvataggio:", errore)
 
 
-# ---- Avvio programma ----
+#Ciclo principale del programma
 
 config = carica_configurazione("parametri.conf")
 
@@ -76,4 +77,14 @@ try:
 
 except KeyboardInterrupt:
     print("\nSimulazione interrotta dall'utente")
+
+#Stampa dei dati finali
+
+print("--FINE PROGRAMMA-- \n")
+print("Numero rilevazioni: ", conteggio)
+
+print("Temperatura media: ", round(tot_temp / conteggio, N_DECIMALI))
+
+print("Umidita media: ", round(tot_umid / conteggio, N_DECIMALI))
+
 
