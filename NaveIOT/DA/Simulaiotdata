@@ -3,92 +3,77 @@ import time
 import random
 from misurazione import on_temperatura, on_umidita
 
-#Lettura del file di configurazione
-try:
-    file_conf = open("parametri.conf", "r") as file:
-        parametri = json.load(file)
-    file_conf.close()  
-except FileNotFoundError:
-    print("File di configurazione non trovato")
-    exit(1)
-except json.JSONDecodeError as e:
-    print("JSON non valido: "e)
-    exit(1)
-except: Exception as e:
-    print("Errore: ", e)
-    exit(1)
+
+def carica_configurazione(percorso):
+    try:
+        with open(percorso, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Errore: file di configurazione mancante")
+        exit(1)
+    except json.JSONDecodeError:
+        print("Errore: formato JSON non corretto")
+        exit(1)
+    except Exception as errore:
+        print("Errore generico:", errore)
+        exit(1)
 
 
-#Assegnazione Parametri
-
-TIMER_RILEVAZIONE = parametri["TIMER RILEVAZIONE"]
-NUM_DECIMALI = parametri["NUM_DECIMALI"]
-NUM_CABINE = parametri["NUM_CABINE"]
-NUM_PONTI = parametri["NUM_PONTI"]
-
-
-
-# Dichiarazione variabili
-
-rilevazione = 0
-somma_temp = 0
-somma_umid = 0
+def salva_dato(dato):
+    try:
+        with open("IOT/iotdata.dbt", "a") as f:
+            f.write(json.dumps(dato, indent=4))
+            f.write("\n\n")
+    except Exception as errore:
+        print("Errore durante il salvataggio:", errore)
 
 
-print("Simulazione di rete IOT attivata. Prmere CTRL+C per terminare.")
+# ---- Avvio programma ----
 
-# Codice per la rivelazione dei dati nella cabina
+config = carica_configurazione("parametri.conf")
 
-try:
-    while true:
-        rilevazione += 1
+intervallo = config["TIMER RILEVAZIONE"]
+precisione = config["NUM_DECIMALI"]
+cabine_tot = config["NUM_CABINE"]
+ponti_tot = config["NUM_PONTI"]
 
-        cabina = random.randint(1, NUM_CABINE)
-        ponte = random.randint(1, NUM_PONTI)
+conteggio = 0
+tot_temp = 0
+tot_umid = 0
 
-        temperatura = on_temperatura(NUM_DECIMALI)
-        umidita = on_umidita(NUM_DECIMALI)
-
-        timestamp = time.time()
-
-        dato_iot{
-            "cabina": cabina
-            "ponte": ponte
-            "rilevazione": rilevazione
-            "dataeora": dataeora
-            "temperatura": temperatura
-            "umidita": umidita
-        } 
-
-
-# Stampa a video delle misurazioni
-
-print(json.dumps(dato_iot, indent = 4))
-
-#Scrittura dei dati nel file .json
+print("Simulazione IoT avviata (CTRL + C per uscire)")
 
 try:
-    file_dati = open("IOT/iotdata.dbt", "a")
-    file_dati.write(json.dumps(dato_iot, indent=4))
-    file_dati.write("\n\n")
-    file_dati.close()
+    while True:
+        conteggio += 1
 
-except Exception e:
-    print("Errore in scrittura file: ", e)
+        id_cabina = random.randrange(1, cabine_tot + 1)
+        id_ponte = random.randrange(1, ponti_tot + 1)
 
+        temp = on_temperatura(precisione)
+        umid = on_umidita(precisione)
 
-somma_temp += temperatura
-somma_umid += umidita
+        istante = time.strftime("%Y-%m-%d %H:%M:%S")
 
-time.sleep(TIMER_RILEVAZIONE)
+        pacchetto = {
+            "id": conteggio,
+            "cabina": id_cabina,
+            "ponte": id_ponte,
+            "timestamp": istante,
+            "valori": {
+                "temperatura": temp,
+                "umidita": umid
+            }
+        }
 
-#Cattura eccezione per interruzione manuale
+        print(json.dumps(pacchetto, indent=4))
+        salva_dato(pacchetto)
+
+        tot_temp += temp
+        tot_umid += umid
+
+        time.sleep(intervallo)
 
 except KeyboardInterrupt:
-    print("\n Simulazione terminata manualmente con successo")
-
-
-#Stampa risultati finali
-
-
+    print("\nSimulazione interrotta dall'utente")
 
