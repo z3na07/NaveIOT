@@ -1,14 +1,14 @@
 import json
 import time
 import random
-import os
+
 from misurazione import on_temperatura, on_umidita
 
 #Lettura del file di configurazione
 try:
-    with open("parametri.conf", "r") as file:
+    file_conf = open("parametri.conf", "r") as file:
         parametri = json.load(file)
-
+    file_conf.close()
 except FileNotFoundError:
     print("File di configurazione non trovato")
     exit(1)
@@ -28,13 +28,6 @@ NUM_CABINE = parametri["NUM_CABINE"]
 NUM_PONTI = parametri["NUM_PONTI"]
 
 
-# Creazione Cartella
-
-try:
-    os.makedirs("dati", exist_ok = true)
-except Exception as e:
-    print("Errore nella creazione della cartella: ", e)
-    exit(1)
 
 # Dichiarazione variabili
 
@@ -72,5 +65,31 @@ try:
 # Stampa a video delle misurazioni
 
 print(json.dumps(dato_iot, indent = 4))
+
+#Scrittura dei dati nel file .json
+
+try:
+    file_dati = open("IOT/iotdata.dbt", "a")
+    file_dati.write(json.dumps(dato_iot, indent=4))
+    file_dati.write("\n\n")
+    file_dati.close()
+
+except Exception e:
+    print("Errore in scrittura file: ", e)
+
+
+somma_temp += temperatura
+somma_umid += umidita
+
+time.sleep(TIMER_RILEVAZIONE)
+
+#Cattura eccezione per interruzione manuale
+
+except KeyboardInterrupt:
+    print("\n Simulazione terminata manualmente con successo")
+
+
+#Stampa risultati finali
+
 
 
