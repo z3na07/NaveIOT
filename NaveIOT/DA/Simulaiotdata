@@ -83,8 +83,9 @@ except KeyboardInterrupt:
 print("--FINE PROGRAMMA-- \n")
 print("Numero rilevazioni: ", conteggio)
 
-print("Temperatura media: ", round(tot_temp / conteggio, N_DECIMALI))
+print("Temperatura media: ", round(tot_temp / conteggio, precisione))
 
-print("Umidita media: ", round(tot_umid / conteggio, N_DECIMALI))
+print("Umidita media: ", round(tot_umid / conteggio, precisione))
+
 
 
