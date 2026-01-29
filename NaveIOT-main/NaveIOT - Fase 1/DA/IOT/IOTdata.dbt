@@ -1,0 +1,33 @@
+{
+    "id": 1,
+    "cabina": 75,
+    "ponte": 3,
+    "timestamp": 1769076023.8406875,
+    "valori": {
+        "temperatura": 32.88,
+        "umidita": 41.62
+    }
+}
+
+{
+    "id": 2,
+    "cabina": 90,
+    "ponte": 3,
+    "timestamp": 1769076028.8417716,
+    "valori": {
+        "temperatura": 17.61,
+        "umidita": 49.94
+    }
+}
+
+{
+    "id": 1,
+    "cabina": 4,
+    "ponte": 1,
+    "timestamp": 1769076055.1078396,
+    "valori": {
+        "temperatura": 35.86,
+        "umidita": 80.94
+    }
+}
+
