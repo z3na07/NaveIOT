@@ -113,6 +113,7 @@ def gestisci_dc(connessione, indirizzo, parametri):
             # Se nel buffer c'è un '\n', significa che abbiamo ricevuto almeno un messaggio completo
             while '\n' in buffer:
                 messaggio, buffer = buffer.split('\n', 1)
+                print(f"[DEBUG] Ho ricevuto questo: {messaggio}")
                 try:
                     dato = json.loads(messaggio) # Converte in dizionario
                     id_dc = dato["identita"]
@@ -181,3 +182,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
