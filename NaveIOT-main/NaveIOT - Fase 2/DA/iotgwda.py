@@ -139,7 +139,16 @@ def gestisci_dc(connessione, indirizzo, parametri):
 
 # Funzione chiamata quando si preme CTRL+C
 def quando_premo_ctrlc(sig, frame):
-    print(f"\n[DA] Invii fatti all'IoTPlatform: {numero_invii}")
+    # Calcoliamo il totale delle rilevazioni ancora presenti nel buffer
+    # sommando la lunghezza di ogni lista di rilevazioni nel dizionario
+    rilevazioni_residue = sum(len(lista) for lista in dati_ricevuti.values())
+    
+    print("\n" + "="*30)
+    print("--- RIEPILOGO FINALE ---")
+    print(f"Aggregazioni inviate all'IoTPlatform: {numero_invii}")
+    print(f"Rilevazioni totali ricevute nell'ultima sessione: {rilevazioni_residue}")
+    print("="*30)
+    print("[DA] Server spento correttamente.")
     sys.exit(0)
 
 # Punto di ingresso del programma
@@ -182,4 +191,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
