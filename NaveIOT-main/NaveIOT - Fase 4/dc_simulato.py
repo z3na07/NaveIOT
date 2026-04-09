@@ -21,12 +21,12 @@ def main():
     print(f"[DC VIRTUALE] Invio dati a {ip_da}:{porta_da}")
 
     while True:
-        # 1. Lettura dati simulati (usando la libreria misurazione.py)
+        # Lettura dati simulati (usando la libreria misurazione.py)
         # Passiamo 2 come parametro per avere 2 cifre decimali, come richiesto dal file
         temp = misurazione.on_temperatura(2)
         umid = misurazione.on_umidita(2)
         
-        # 2. Creazione payload come da PDF
+        # reazione payload come da PDF
         payload = {
             "cabina": 1,
             "ponte": 1,
@@ -39,10 +39,10 @@ def main():
         
         dati_json = json.dumps(payload)
         
-        # 3. DEBUG: Stampa del dato inviato
+        # DEBUG: Stampa del dato inviato
         print(f"[DC DEBUG] Dati inviati in chiaro -> {dati_json}")
         
-        # 4. Invio via Socket locale al DA (Gateway)
+        # Invio via Socket locale al DA (Gateway)
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip_da, porta_da))

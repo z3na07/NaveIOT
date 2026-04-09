@@ -7,16 +7,16 @@ import paho.mqtt.client as mqtt
 from cripto import criptazione
 
 def main():
-    # 1. Lettura configurazione
+    # Lettura configurazione
     with open('configurazione/parametri.json', 'r') as f:
         config = json.load(f)
 
-    # 2. Configurazione client MQTT (Publisher)
+    # Configurazione client MQTT (Publisher)
     client = mqtt.Client()
     client.connect(config["BROKER"], config["PORTA_BROKER"], 60)
     topic_nave = config["TOPIC"]
 
-    # 3. Configurazione Socket TCP (Server per la Pico)
+    # Configurazione Socket TCP (Server per la Pico)
     # Usa 0.0.0.0 per ascoltare su tutte le interfacce di rete del PC
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(("0.0.0.0", config["PORTA_SERVER"]))
@@ -33,11 +33,11 @@ def main():
             # DEBUG: stampa il dato ricevuto in chiaro
             print(f"\n[DA DEBUG] Ricevuto dal DC: {dati_chiaro}")
             
-            # 4. Criptazione con la funzione del modulo cripto.py
+            # Criptazione con la funzione del modulo cripto.py
             dati_criptati = criptazione(dati_chiaro)
             print(f"[DA DEBUG] Dato Criptato (invio MQTT): {dati_criptati}")
             
-            # 5. Pubblicazione su Broker MQTT
+            # Pubblicazione su Broker MQTT
             client.publish(topic_nave, dati_criptati)
             
         conn.close()

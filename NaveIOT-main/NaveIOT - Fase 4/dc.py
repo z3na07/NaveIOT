@@ -32,10 +32,10 @@ def main():
     invio_numero = 1
 
     while True:
-        # 1. Lettura dati dal sensore
+        # Lettura dati dal sensore
         temp, umid = leggi_sensore()
         
-        # 2. Creazione payload come da "SEMPLIFICAZIONE" del PDF
+        # Creazione payload come da "SEMPLIFICAZIONE" del PDF
         payload = {
             "cabina": 1,
             "ponte": 1,
@@ -48,10 +48,10 @@ def main():
         
         dati_json = json.dumps(payload)
         
-        # 3. DEBUG: Stampa del dato non criptato inviato
+        # DEBUG: Stampa del dato non criptato inviato
         print(f"[DC DEBUG] Dati non criptati inviati a {ip_da}:{porta_da} -> {dati_json}")
         
-        # 4. Invio via Socket al DA (Gateway)
+        # Invio via Socket al DA (Gateway)
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip_da, porta_da))

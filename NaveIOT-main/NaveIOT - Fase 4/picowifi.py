@@ -10,7 +10,7 @@ import network
 import ubinascii              # Conversions between binary data and various encodings of it in ASCII form
 import machine                # Funzioni relative all'HW utilizzato
 import time
-#
+
 def Parametri_WiFi():
     import json
     with open('wifipico.conf', 'r') as file:
@@ -18,7 +18,7 @@ def Parametri_WiFi():
         ssid = credenziali["ssid"]
         pasw = credenziali["pw"]
     return ssid,pasw
-#
+
 def Powersaving(scelta):
     """
     Per impostazione predefinita, il chip wireless attiva la modalità di risparmio energetico
@@ -31,7 +31,7 @@ def Powersaving(scelta):
     else:
         pass 
     return
-#
+
 def Connessione_WiFi(time_out,s,p,pausa):
    """
    Connessione alla rete WiFi di nome s con password p,
@@ -46,7 +46,7 @@ def Connessione_WiFi(time_out,s,p,pausa):
    -2 Link NoNet
    -3 Link BadAuth
    """
-   #
+   
    wlan.connect(s,p)    # Connect to the specified wireless network --- wlan.disconnect()
    # Attessa connessione o fallimento
    print ("Tentativi (attesa): ", time_out)
@@ -67,7 +67,7 @@ def Connessione_WiFi(time_out,s,p,pausa):
         ip_assegnato = status[0]
         print("IP Pico: ", ip_assegnato)
    return
-#
+
 def Errore_con_blink_led(num_blinks):
     led = machine.Pin('LED', machine.Pin.OUT)
     for i in range(num_blinks):
@@ -76,7 +76,7 @@ def Errore_con_blink_led(num_blinks):
         led.off()
         time.sleep(.2)
     return
-#
+
 def Info_WiFi():
     """
     Visualizza parametri scheda WiFi
@@ -121,14 +121,13 @@ def Info_WiFi():
     print (wlan.scan())
     print()
     return
-# 
-# 
+
 # Main
-#
+
 ATTESA = 10
 TEMPO_PAUSA = 1
 SSID,PASW = Parametri_WiFi()
-#
+
 # Configurazione connessione WiFi
 rp2.country('IT')                    # Disponibili i canali wifi Italia per evitare possibili errori
 wlan = network
