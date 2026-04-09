@@ -5,10 +5,10 @@
 #
 # Script: picowifi.py
 #
-import rp2                    # Funzioni e classi specifiche per RP2040 - Raspberry Pi Pico
+import rp2 # Funzioni e classi specifiche per RP2040 - Raspberry Pi Pico
 import network
-import ubinascii              # Conversions between binary data and various encodings of it in ASCII form
-import machine                # Funzioni relative all'HW utilizzato
+import ubinascii # Conversions between binary data and various encodings of it in ASCII form
+import machine # Funzioni relative all'HW utilizzato
 import time
 
 def Parametri_WiFi():
@@ -27,7 +27,7 @@ def Powersaving(scelta):
     puoi modificare questa impostazione attivando la modalità di risparmio energetico.
     """
     if (scelta == "SI"):
-        wlan.config(pm = 0xa11140)  # Disabilita powersaving mode
+        wlan.config(pm = 0xa11140) # Disabilita powersaving mode
     else:
         pass 
     return
@@ -47,7 +47,7 @@ def Connessione_WiFi(time_out,s,p,pausa):
    -3 Link BadAuth
    """
    
-   wlan.connect(s,p)    # Connect to the specified wireless network --- wlan.disconnect()
+   wlan.connect(s,p) # Connect to the specified wireless network --- wlan.disconnect()
    # Attessa connessione o fallimento
    print ("Tentativi (attesa): ", time_out)
    while time_out > 0:
@@ -83,12 +83,12 @@ def Info_WiFi():
     #
     wlan.scan()
     Esegue la scansione delle reti wireless disponibili. Anche le reti nascoste,
-    in cui l'SSID non viene trasmesso, verranno    scansionate se l'interfaccia WLAN lo consente.
+    in cui l'SSID non viene trasmesso, verranno scansionate se l'interfaccia WLAN lo consente.
     La scansione è possibile solo sull'interfaccia STA.
     Restituisce un elenco di tuple con le informazioni sui punti di accesso WiFi:
     (ssid, bssid, channel, RSSI, security, hidden)
     """
-    mac = ubinascii.hexlify(network.WLAN().config('mac'),':').decode()  # MAC chip wireless
+    mac = ubinascii.hexlify(network.WLAN().config('mac'),':').decode() # MAC chip wireless
     print('mac = ' + mac)
     print('Canale: ',wlan.config('channel'))
     print('SSID: ', wlan.config('essid'))
@@ -129,5 +129,5 @@ TEMPO_PAUSA = 1
 SSID,PASW = Parametri_WiFi()
 
 # Configurazione connessione WiFi
-rp2.country('IT')                    # Disponibili i canali wifi Italia per evitare possibili errori
+rp2.country('IT') # Disponibili i canali wifi Italia per evitare possibili errori
 wlan = network
