@@ -122,12 +122,15 @@ def Info_WiFi():
     print()
     return
 
-# Main
+# ─── Main ────────────────────────────────────────────────────────────────────
 
 ATTESA = 10
 TEMPO_PAUSA = 1
-SSID,PASW = Parametri_WiFi()
+SSID, PASW = Parametri_WiFi()
 
 # Configurazione connessione WiFi
-rp2.country('IT') # Disponibili i canali wifi Italia per evitare possibili errori
-wlan = network
+rp2.country('IT')               # Canali WiFi italiani
+wlan = network.WLAN(network.STA_IF)  # Modalità Station (client WiFi)
+wlan.active(True)               # Attiva la scheda WiFi
+Powersaving("SI")               # Disabilita risparmio energetico per maggiore reattività
+Connessione_WiFi(ATTESA, SSID, PASW, TEMPO_PAUSA)  # Connessione con 10 tentativi
